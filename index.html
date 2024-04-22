@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dockerfile Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+    />
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f7f7f7;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+
+      .subtitle {
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: rgb(88, 88, 88);
+      }
+
+      label {
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #555;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #ccc;
+        margin-bottom: 1rem;
+        font-size: 1rem;
+      }
+
+      button {
+        background-color: #4299e1;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #2b6cb0;
+      }
+
+      pre {
+        background-color: #f7f7f7;
+        padding: 1rem;
+        border-radius: 0.25rem;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Dockerfile Generator</h1>
+      <p class="subtitle">
+        <span style="color: #e21010;">Note: </span> Some of these templates may need additional configuration or
+        customization based on your project's specific requirements, such as
+        exposing additional ports, setting environment variables, or running
+        additional commands during the build or runtime phases.
+      </p>
+      <div class="mb-4">
+        <label for="projectName" class="block mb-2">Project Name:</label>
+        <input
+          type="text"
+          id="projectName"
+          placeholder="Enter project name"
+          class="w-full"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="language" class="block mb-2">Language:</label>
+        <select id="language" class="w-full"></select>
+      </div>
+      <div class="mb-4">
+        <label for="framework" class="block mb-2">Framework:</label>
+        <select id="framework" class="w-full"></select>
+      </div>
+      <div class="mb-4">
+        <label for="port" class="block mb-2">Port:</label>
+        <input
+          type="text"
+          id="port"
+          placeholder="Enter port number"
+          class="w-full"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="entrypoint" class="block mb-2">Entry Point:</label>
+        <input
+          type="text"
+          id="entrypoint"
+          placeholder="Enter entry point (e.g., app.py, server.js, etc.)"
+          class="w-full"
+        />
+      </div>
+      <button class="w-full mb-4" onclick="generateDockerfile()">
+        Generate Dockerfile
+      </button>
+      <pre id="dockerfileContent" class="bg-gray-200 p-4 rounded"></pre>
+      <button class="w-full" onclick="copyDockerfile()">Copy</button>
+    </div>
+
+    <script>
+      let config;
+
+      // Load the configuration file
+      fetch("config.json")
+        .then((response) => response.json())
+        .then((data) => {
+          config = data;
+          populateLanguageSelect();
+        })
+        .catch((error) => {
+          console.error("Error loading configuration:", error);
+        });
+
+      function populateLanguageSelect() {
+        const languageSelect = document.getElementById("language");
+        languageSelect.innerHTML =
+          '<option value="">Select a language</option>';
+
+        for (const language in config) {
+          const option = document.createElement("option");
+          option.value = language;
+          option.text = config[language].label;
+          languageSelect.add(option);
+        }
+      }
+
+      function populateFrameworkSelect(language) {
+        const frameworkSelect = document.getElementById("framework");
+        frameworkSelect.innerHTML =
+          '<option value="">Select a framework</option>';
+
+        if (config[language] && config[language].frameworks) {
+          for (const framework in config[language].frameworks) {
+            const option = document.createElement("option");
+            option.value = framework;
+            option.text = config[language].frameworks[framework].label;
+            frameworkSelect.add(option);
+          }
+        }
+      }
+
+      document
+        .getElementById("language")
+        .addEventListener("change", function () {
+          const selectedLanguage = this.value;
+          populateFrameworkSelect(selectedLanguage);
+        });
+
+      function generateDockerfile() {
+        const projectName = document.getElementById("projectName").value;
+        const language = document.getElementById("language").value;
+        const framework = document.getElementById("framework").value;
+        const port = document.getElementById("port").value;
+        const entrypoint = document.getElementById("entrypoint").value;
+        let dockerfileContent;
+
+        if (config[language] && config[language].frameworks[framework]) {
+          const frameworkConfig = config[language].frameworks[framework];
+          let template = frameworkConfig.template;
+          template = template.replace(/\$\{port\}/g, port);
+          template = template.replace(/\$\{entrypoint\}/g, entrypoint);
+          dockerfileContent = template;
+        } else {
+          dockerfileContent =
+            "# Provide a Dockerfile template for the specified framework.";
+        }
+
+        document.getElementById("dockerfileContent").textContent =
+          dockerfileContent;
+      }
+
+      function copyDockerfile() {
+        const dockerfileContent =
+          document.getElementById("dockerfileContent").textContent;
+        navigator.clipboard
+          .writeText(dockerfileContent)
+          .then(() => {
+            alert("Dockerfile copied to clipboard!");
+          })
+          .catch((err) => {
+            alert("Failed to copy Dockerfile: " + err);
+          });
+      }
+    </script>
+  </body>
+</html>

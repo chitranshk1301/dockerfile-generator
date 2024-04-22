@@ -1,0 +1,172 @@
+{
+  "python": {
+    "label": "Python",
+    "frameworks": {
+      "django": {
+        "label": "Django",
+        "template": "# Start with the official Python image\nFROM python:3.9-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Expose the port for the Django application\nEXPOSE ${port}\n\n# Run the Django application\nCMD [\"python\", \"manage.py\", \"runserver\", \"0.0.0.0:${port}\"]"
+      },
+      "flask": {
+        "label": "Flask",
+        "template": "# Start with the official Python image\nFROM python:3.9-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Expose the port for the Flask application\nEXPOSE ${port}\n\n# Run the Flask application\nCMD [\"python\", \"${entrypoint}\"]"
+      },
+      "fastapi": {
+        "label": "FastAPI",
+        "template": "# Start with the official Python image\nFROM python:3.9-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Expose the port for the FastAPI application\nEXPOSE ${port}\n\n# Run the FastAPI application\nCMD [\"uvicorn\", \"${entrypoint}\", \"--host\", \"0.0.0.0\", \"--port\", \"${port}\"]"
+      },
+      "pyramid": {
+        "label": "Pyramid",
+        "template": "# Start with the official Python image\nFROM python:3.9-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Expose the port for the Pyramid application\nEXPOSE ${port}\n\n# Run the Pyramid application\nCMD [\"pserve\", \"--reload\", \"${entrypoint}\"]"
+      }
+    }
+  },
+  "javascript": {
+    "label": "JavaScript",
+    "frameworks": {
+      "node.js": {
+        "label": "Node.js",
+        "template": "# Start with the official Node.js image\nFROM node:14-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN npm install\n\n# Expose the port for the Node.js application\nEXPOSE ${port}\n\n# Run the Node.js application\nCMD [\"node\", \"${entrypoint}\"]"
+      },
+      "express": {
+        "label": "Express.js",
+        "template": "# Start with the official Node.js image\nFROM node:14-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN npm install\n\n# Expose the port for the Express.js application\nEXPOSE ${port}\n\n# Run the Express.js application\nCMD [\"node\", \"${entrypoint}\"]"
+      },
+      "react": {
+        "label": "React",
+        "template": "# Start with the official Node.js image\nFROM node:14-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN npm install\n\n# Build the React application\nRUN npm run build\n\n# Expose the port for the React application\nEXPOSE ${port}\n\n# Run the React application\nCMD [\"npm\", \"start\"]"
+      },
+      "angular": {
+        "label": "Angular",
+        "template": "# Start with the official Node.js image\nFROM node:14-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN npm install\n\n# Build the Angular application\nRUN npm run build\n\n# Expose the port for the Angular application\nEXPOSE ${port}\n\n# Run the Angular application\nCMD [\"npm\", \"start\"]"
+      },
+      "vue.js": {
+        "label": "Vue.js",
+        "template": "# Start with the official Node.js image\nFROM node:14-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN npm install\n\n# Build the Vue.js application\nRUN npm run build\n\n# Expose the port for the Vue.js application\nEXPOSE ${port}\n\n# Run the Vue.js application\nCMD [\"npm\", \"start\"]"
+      }
+    }
+  },
+  "ruby": {
+    "label": "Ruby",
+    "frameworks": {
+      "rails": {
+        "label": "Ruby on Rails",
+        "template": "# Start with the official Ruby image\nFROM ruby:3.1-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN bundle install\n\n# Expose the port for the Rails application\nEXPOSE ${port}\n\n# Run the Rails application\nCMD [\"bundle\", \"exec\", \"rails\", \"server\", \"-b\", \"0.0.0.0\", \"-p\", \"${port}\"]"
+      },
+      "sinatra": {
+        "label": "Sinatra",
+        "template": "# Start with the official Ruby image\nFROM ruby:3.1-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN bundle install\n\n# Expose the port for the Sinatra application\nEXPOSE ${port}\n\n# Run the Sinatra application\nCMD [\"ruby\", \"${entrypoint}\", \"-o\", \"0.0.0.0\", \"-p\", \"${port}\"]"
+      }
+    }
+  },
+  "java": {
+    "label": "Java",
+    "frameworks": {
+      "spring-boot": {
+        "label": "Spring Boot",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Spring Boot application\nRUN ./mvnw clean package\n\n# Expose the port for the Spring Boot application\nEXPOSE ${port}\n\n# Run the Spring Boot application\nCMD [\"java\", \"-jar\", \"target/*.jar\"]"
+      },
+      "quarkus": {
+        "label": "Quarkus",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Quarkus application\nRUN ./mvnw package -Pnative -Dquarkus.native.container-build=true\n\n# Expose the port for the Quarkus application\nEXPOSE ${port}\n\n# Run the Quarkus application\nCMD [\"./target/*-runner\"]"
+      },
+      "micronaut": {
+        "label": "Micronaut",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Micronaut application\nRUN ./gradlew assemble\n\n# Expose the port for the Micronaut application\nEXPOSE ${port}\n\n# Run the Micronaut application\nCMD [\"java\", \"-jar\", \"build/libs/*.jar\"]"
+      },
+      "wildfly": {
+        "label": "WildFly",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /opt/wildfly\n\n# Download and extract WildFly\nRUN wget https://github.com/wildfly/wildfly/releases/download/26.1.2.Final/wildfly-26.1.2.Final.tar.gz && \\\n    tar -xzf wildfly-26.1.2.Final.tar.gz && \\\n    rm wildfly-26.1.2.Final.tar.gz\n\n# Copy the project files into the container\nCOPY . /opt/wildfly/standalone/deployments/\n\n# Expose the port for the WildFly application\nEXPOSE ${port}\n\n# Run the WildFly application\nCMD [\"/opt/wildfly/bin/standalone.sh\", \"-b\", \"0.0.0.0\", \"-bmanagement\", \"0.0.0.0\"]"
+      },
+      "payara": {
+        "label": "Payara",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /opt/payara\n\n# Download and extract Payara\nRUN wget https://github.com/payara/Payara/releases/download/5.2022.4/payara-5.2022.4.zip && \\\n    unzip payara-5.2022.4.zip && \\\n    rm payara-5.2022.4.zip\n\n# Copy the project files into the container\nCOPY . /opt/payara/deployments/\n\n# Expose the port for the Payara application\nEXPOSE ${port}\n\n# Run the Payara application\nCMD [\"/opt/payara/bin/payara\", \"--deploy\", \"/opt/payara/deployments/*\"]"
+      }
+    }
+  },
+  "go": {
+    "label": "Go",
+    "frameworks": {
+      "go": {
+        "label": "Go",
+        "template": "# Start with the official Golang image\nFROM golang:1.19-alpine\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Go application\nRUN go build -o main .\n\n# Expose the port for the Go application\nEXPOSE ${port}\n\n# Run the Go application\nCMD [\"/app/main\"]"
+      },
+      "gin": {
+        "label": "Gin",
+        "template": "# Start with the official Golang image\nFROM golang:1.19-alpine\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN go mod download\n\n# Build the Gin application\nRUN go build -o main .\n\n# Expose the port for the Gin application\nEXPOSE ${port}\n\n# Run the Gin application\nCMD [\"/app/main\"]"
+      },
+      "echo": {
+        "label": "Echo",
+        "template": "# Start with the official Golang image\nFROM golang:1.19-alpine\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN go mod download\n\n# Build the Echo application\nRUN go build -o main .\n\n# Expose the port for the Echo application\nEXPOSE ${port}\n\n# Run the Echo application\nCMD [\"/app/main\"]"
+      },
+      "buffalo": {
+        "label": "Buffalo",
+        "template": "# Start with the official Golang image\nFROM golang:1.19-alpine\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN go get -u github.com/gobuffalo/buffalo/buffalo\n\n# Build the Buffalo application\nRUN buffalo build\n\n# Expose the port for the Buffalo application\nEXPOSE ${port}\n\n# Run the Buffalo application\nCMD [\"/app/bin/buffalo\", \"serve\", \"--port\", \"${port}\"]"
+      }
+    }
+  },
+  "rust": {
+    "label": "Rust",
+    "frameworks": {
+      "rust": {
+        "label": "Rust",
+        "template": "# Start with the official Rust image\nFROM rust:1.68\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Rust application\nRUN cargo build --release\n\n# Expose the port for the Rust application\nEXPOSE ${port}\n\n# Run the Rust application\nCMD [\"./target/release/${entrypoint}\"]"
+      },
+      "actix-web": {
+        "label": "Actix Web",
+        "template": "# Start with the official Rust image\nFROM rust:1.68\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN cargo install --path .\n\n# Build the Actix Web application\nRUN cargo build --release\n\n# Expose the port for the Actix Web application\nEXPOSE ${port}\n\n# Run the Actix Web application\nCMD [\"./target/release/${entrypoint}\"]"
+      },
+      "rocket": {
+        "label": "Rocket",
+        "template": "# Start with the official Rust image\nFROM rust:1.68\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN cargo install --path .\n\n# Build the Rocket application\nRUN cargo build --release\n\n# Expose the port for the Rocket application\nEXPOSE ${port}\n\n# Run the Rocket application\nCMD [\"./target/release/${entrypoint}\"]"
+      }
+    }
+  },
+  "dotnet": {
+    "label": ".NET Core",
+    "frameworks": {
+      "aspnet-core": {
+        "label": "ASP.NET Core",
+        "template": "# Start with the official .NET Core SDK image\nFROM mcr.microsoft.com/dotnet/sdk:6.0\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Restore the project dependencies\nRUN dotnet restore\n\n# Build the ASP.NET Core application\nRUN dotnet build\n\n# Expose the port for the ASP.NET Core application\nEXPOSE ${port}\n\n# Run the ASP.NET Core application\nCMD [\"dotnet\", \"run\", \"--urls=http://0.0.0.0:${port}\"]"
+      }
+    }
+  },
+  "php": {
+    "label": "PHP",
+    "frameworks": {
+      "php": {
+        "label": "PHP",
+        "template": "# Start with the official PHP image\nFROM php:8.1-apache\n\n# Set the working directory in the container\nWORKDIR /var/www/html\n\n# Copy the project files into the container\nCOPY . .\n\n# Expose the port for the PHP application\nEXPOSE ${port}\n\n# Start the Apache server\nCMD [\"apache2-foreground\"]"
+      },
+      "laravel": {
+        "label": "Laravel",
+        "template": "# Start with the official PHP image\nFROM php:8.1-apache\n\n# Set the working directory in the container\nWORKDIR /var/www/html\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN composer install\n\n# Expose the port for the Laravel application\nEXPOSE ${port}\n\n# Start the Apache server\nCMD [\"apache2-foreground\"]"
+      }
+    }
+  },
+  "scala": {
+    "label": "Scala",
+    "frameworks": {
+      "scala": {
+        "label": "Scala",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Scala application\nRUN sbt package\n\n# Expose the port for the Scala application\nEXPOSE ${port}\n\n# Run the Scala application\nCMD [\"java\", \"-jar\", \"target/scala-2.13/*.jar\"]"
+      },
+      "play": {
+        "label": "Play Framework",
+        "template": "# Start with the official OpenJDK image\nFROM openjdk:17-slim\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Build the Play application\nRUN sbt dist\n\n# Expose the port for the Play application\nEXPOSE ${port}\n\n# Run the Play application\nCMD [\"target/universal/stage/bin/${entrypoint}\", \"-Dhttp.port=${port}\"]"
+      }
+    }
+  },
+  "elixir": {
+    "label": "Elixir",
+    "frameworks": {
+      "elixir": {
+        "label": "Elixir",
+        "template": "# Start with the official Elixir image\nFROM elixir:1.14\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN mix deps.get\n\n# Build the Elixir application\nRUN mix compile\n\n# Expose the port for the Elixir application\nEXPOSE ${port}\n\n# Run the Elixir application\nCMD [\"mix\", \"run\", \"--no-halt\"]"
+      },
+      "phoenix": {
+        "label": "Phoenix",
+        "template": "# Start with the official Elixir image\nFROM elixir:1.14\n\n# Set the working directory in the container\nWORKDIR /app\n\n# Copy the project files into the container\nCOPY . .\n\n# Install the project dependencies\nRUN mix deps.get\n\n# Compile the Phoenix application\nRUN mix compile\n\n# Expose the port for the Phoenix application\nEXPOSE ${port}\n\n# Run the Phoenix application\nCMD [\"mix\", \"phx.server\"]"
+      }
+    }
+  }
+}
